@@ -6,13 +6,28 @@ class Matrix {
     int columns;
     std::vector<double> values;
 
+    int getIndex(int row, int column) const;
+    bool isNull() const;
+
   public:
     enum initMode { RANDOM, ZERO };
 
     Matrix(int rows, int columns, initMode mode);
     ~Matrix();
-    void printMatrix();
+
     double generateRandVal();
-    double getMatrixValue(int row, int column);
-    void setMatrixValue(int row, int column, double value);
+
+    void print() const;
+    double getValue(int row, int column) const;
+    void setValue(int row, int column, double value);
+
+    Matrix transpose() const;
+
+    Matrix operator+(const Matrix &addend) const;
+    Matrix operator+(double scalar) const;
+
+    Matrix operator*(const Matrix &factor) const;
+    Matrix operator*(double scalar) const;
+
+    Matrix operator%(const Matrix &factor) const;
 };

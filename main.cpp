@@ -1,18 +1,26 @@
 #include "matrix.hpp"
+#include "matrixException.hpp"
 #include <iostream>
 
 using namespace std;
 
 int main() {
-    Matrix *testMatrix = new Matrix(5, 5, Matrix::RANDOM);
-    testMatrix->printMatrix();
-    cout << '\n';
-    cout << testMatrix->getMatrixValue(2, 2) << '\n';
+    try {
+        Matrix testMatrix(5, 5, Matrix::RANDOM);
+        testMatrix.print();
+        cout << endl;
 
-    testMatrix->setMatrixValue(2, 2, 0.35);
+        Matrix addendMatrix(5, 5, Matrix::RANDOM);
+        addendMatrix.print();
+        cout << endl;
 
-    testMatrix->printMatrix();
-    cout << '\n';
-    cout << testMatrix->getMatrixValue(2, 2) << '\n';
+        double scalar = 2.0;
+
+        Matrix transMatrix = testMatrix.transpose();
+        transMatrix.print();
+
+    } catch (MatrixException e) {
+        cout << e.what() << endl;
+    }
     return 0;
 }
