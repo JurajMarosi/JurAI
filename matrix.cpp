@@ -121,24 +121,22 @@ Matrix Matrix::operator*(const Matrix &factor) const {
 
     if (columns != factor.rows) {
         throw MatrixException(
-            "Matrices does not have compatible dimensions for multiplication!");
+            "Matrices do not have compatible dimensions for multiplication!");
     }
 
     Matrix mulMatrix(rows, factor.columns, ZERO);
 
     for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < factor.columns; j++) {
+        for (int k = 0; k < columns; k++) {
+            int indexA = i * columns + k;
+            double valA = values[indexA];
 
-            double sum = 0.0;
-            for (int k = 0; k < columns; k++) {
-                int indexA = i * columns + k;
+            for (int j = 0; j < factor.columns; j++) {
                 int indexB = k * factor.columns + j;
+                int indexResult = i * factor.columns + j;
 
-                sum += values[indexA] * factor.values[indexB];
+                mulMatrix.values[indexResult] += valA * factor.values[indexB];
             }
-
-            int indexResult = i * factor.columns + j;
-            mulMatrix.values[indexResult] = sum;
         }
     }
 

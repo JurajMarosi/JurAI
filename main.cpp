@@ -16,7 +16,7 @@ int main() {
 
         double scalar = 2.0;
 
-        Matrix transMatrix = testMatrix.transpose();
+        Matrix transMatrix = testMatrix * addendMatrix;
         transMatrix.print();
 
     } catch (MatrixException e) {
