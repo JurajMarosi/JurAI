@@ -5,22 +5,13 @@
 using namespace std;
 
 int main() {
-    try {
-        MyMatrix testMyMatrix(5, 5, MyMatrix::RANDOM);
-        testMyMatrix.print();
-        cout << endl;
+    MyMatrix input(1, 3, MyMatrix::RANDOM);
+    MyMatrix weight(3, 2, MyMatrix::RANDOM);
+    MyMatrix bias(1, 2, MyMatrix::RANDOM);
 
-        MyMatrix addendMyMatrix(5, 5, MyMatrix::RANDOM);
-        addendMyMatrix.print();
-        cout << endl;
+    MyMatrix output = (input * weight + bias).sigmoid();
 
-        double scalar = 2.0;
+    output.print();
 
-        MyMatrix transMyMatrix = testMyMatrix * addendMyMatrix;
-        transMyMatrix.print();
-
-    } catch (MyMatrixException e) {
-        cout << e.what() << endl;
-    }
     return 0;
 }

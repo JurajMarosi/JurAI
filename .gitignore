@@ -1,4 +1,7 @@
 main
+run_tests
+
+commands.txt
 
 *.dSYM/
 main.dSYM/

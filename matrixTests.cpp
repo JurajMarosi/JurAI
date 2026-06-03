@@ -211,6 +211,52 @@ void testIndexException() {
     cout << "Index exception was thrown successfully!" << endl;
 }
 
+void testMatrixMap() {
+    MyMatrix m(2, 2, MyMatrix::ZERO);
+    m.setValue(0, 0, 1.0);
+    m.setValue(0, 1, 2.0);
+    m.setValue(1, 0, 3.0);
+    m.setValue(1, 1, 4.0);
+
+    MyMatrix result = m.map([](double x) { return x * 2.0; });
+
+    assert(result.getValue(0, 0) == 2.0);
+    assert(result.getValue(0, 1) == 4.0);
+    assert(result.getValue(1, 0) == 6.0);
+    assert(result.getValue(1, 1) == 8.0);
+
+    cout << "Matrix map function works successfully!" << endl;
+}
+
+void testReluFunc() {
+    MyMatrix m(2, 2, MyMatrix::ZERO);
+    m.setValue(0, 0, -5.5);
+    m.setValue(0, 1, 0.0);
+    m.setValue(1, 0, 3.0);
+    m.setValue(1, 1, -0.1);
+
+    MyMatrix result = m.relu();
+
+    assert(result.getValue(0, 0) == 0.0);
+    assert(result.getValue(0, 1) == 0.0);
+    assert(result.getValue(1, 0) == 3.0);
+    assert(result.getValue(1, 1) == 0.0);
+
+    cout << "ReLU function apllied to matrix successfully!" << endl;
+}
+
+void testSigmoidFunc() {
+    MyMatrix m(1, 2, MyMatrix::ZERO);
+    m.setValue(0, 0, 0.0);
+
+    MyMatrix result = m.sigmoid();
+
+    assert(result.getValue(0, 0) == 0.5);
+    assert(result.getValue(0, 1) == 0.5);
+
+    cout << "Sigmoid function apllied to matrix successfully!" << endl;
+}
+
 int main() {
     cout << "--- MATRIX UNIT TESTS ---" << endl;
 
@@ -227,6 +273,11 @@ int main() {
 
     testNullMatrix();
     testIndexException();
+    cout << endl;
+
+    testMatrixMap();
+    testReluFunc();
+    testSigmoidFunc();
 
     return 0;
 }

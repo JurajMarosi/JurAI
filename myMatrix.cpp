@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 #include <random>
 #include <string>
@@ -165,4 +166,26 @@ MyMatrix MyMatrix::operator%(const MyMatrix &addend) const {
         mulMyMatrix.values[i] = values[i] * addend.values[i];
     }
     return mulMyMatrix;
+}
+
+MyMatrix MyMatrix::map(std::function<double(double)> func) const {
+    if (isNull()) {
+        throw MyMatrixException("MyMatrix is NULL!");
+    }
+
+    MyMatrix resultMatrix(rows, columns, ZERO);
+
+    for (size_t i = 0; i < values.size(); i++) {
+        resultMatrix.values[i] = func(values[i]);
+    }
+
+    return resultMatrix;
+}
+
+MyMatrix MyMatrix::sigmoid() const {
+    return map([](double x) { return 1.0 / (1.0 + exp(-x)); });
+}
+
+MyMatrix MyMatrix::relu() const {
+    return map([](double x) { return x < 0.0 ? 0.0 : x; });
 }

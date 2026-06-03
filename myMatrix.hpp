@@ -1,3 +1,4 @@
+#include <functional>
 #include <vector>
 
 class MyMatrix {
@@ -33,4 +34,8 @@ class MyMatrix {
     MyMatrix operator*(double scalar) const;
 
     MyMatrix operator%(const MyMatrix &factor) const;
+
+    MyMatrix map(std::function<double(double)> func) const;
+    MyMatrix sigmoid() const;
+    MyMatrix relu() const;
 };
