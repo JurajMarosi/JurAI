@@ -1,25 +1,25 @@
-#include "matrix.hpp"
-#include "matrixException.hpp"
+#include "myMatrix.hpp"
+#include "myMatrixException.hpp"
 #include <iostream>
 
 using namespace std;
 
 int main() {
     try {
-        Matrix testMatrix(5, 5, Matrix::RANDOM);
-        testMatrix.print();
+        MyMatrix testMyMatrix(5, 5, MyMatrix::RANDOM);
+        testMyMatrix.print();
         cout << endl;
 
-        Matrix addendMatrix(5, 5, Matrix::RANDOM);
-        addendMatrix.print();
+        MyMatrix addendMyMatrix(5, 5, MyMatrix::RANDOM);
+        addendMyMatrix.print();
         cout << endl;
 
         double scalar = 2.0;
 
-        Matrix transMatrix = testMatrix * addendMatrix;
-        transMatrix.print();
+        MyMatrix transMyMatrix = testMyMatrix * addendMyMatrix;
+        transMyMatrix.print();
 
-    } catch (MatrixException e) {
+    } catch (MyMatrixException e) {
         cout << e.what() << endl;
     }
     return 0;

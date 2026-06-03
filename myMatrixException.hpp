@@ -1,11 +1,11 @@
 #include <iostream>
 #include <string>
 
-class MatrixException : public std::exception {
+class MyMatrixException : public std::exception {
   private:
     std::string message;
 
   public:
-    MatrixException(const std::string &msg) : message(msg) {}
+    MyMatrixException(const std::string &msg) : message(msg) {}
     std::string what() { return message; }
 };
