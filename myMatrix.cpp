@@ -45,6 +45,10 @@ double MyMatrix::getValue(int row, int column) const { return values.at(getIndex
 
 void MyMatrix::setValue(int row, int column, double value) { values.at(getIndex(row, column)) = value; }
 
+int MyMatrix::getRows() { return rows; }
+
+int MyMatrix::getColumns() { return columns; }
+
 int MyMatrix::getIndex(int row, int column) const {
     if (isNull()) {
         throw MyMatrixException("MyMatrix is NULL!");

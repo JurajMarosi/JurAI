@@ -1,3 +1,5 @@
+#pragma once
+
 #include <functional>
 #include <vector>
 
@@ -24,6 +26,8 @@ class MyMatrix {
     void print() const;
     double getValue(int row, int column) const;
     void setValue(int row, int column, double value);
+    int getRows();
+    int getColumns();
 
     MyMatrix transpose() const;
 

@@ -1,17 +1,34 @@
 #include "myMatrix.hpp"
 #include "myMatrixException.hpp"
+#include "neuralLayer.hpp"
+
 #include <iostream>
 
 using namespace std;
 
 int main() {
-    MyMatrix input(1, 3, MyMatrix::RANDOM);
-    MyMatrix weight(3, 2, MyMatrix::RANDOM);
-    MyMatrix bias(1, 2, MyMatrix::RANDOM);
+    try {
+        cout << "Vytvaram neuronovu vrstvu (3 vstupy -> 2 neurony)..." << endl;
+        NeuralLayer vrstva(3, 2, RELU);
 
-    MyMatrix output = (input * weight + bias).sigmoid();
+        MyMatrix vstupy(1, 3, MyMatrix::ZERO);
+        vstupy.setValue(0, 0, 1.0);
+        vstupy.setValue(0, 1, -2.5);
+        vstupy.setValue(0, 2, 3.5);
 
-    output.print();
+        cout << "\n--- VSTUPNE DATA (Rozmer 1x3) ---" << endl;
+        vstupy.print();
 
+        cout << "\n--- SPUSTAM FORWARD PASS ---" << endl;
+        MyMatrix vystup = vrstva.forwardPass(vstupy);
+
+        cout << "\n--- VYSTUP Z VRSTVY (Rozmer 1x2) ---" << endl;
+        vystup.print();
+
+        cout << "\nSkuska dopadla uspesne!" << endl;
+
+    } catch (MyMatrixException e) {
+        cerr << e.what() << endl;
+    }
     return 0;
 }
