@@ -1,10 +1,3 @@
-#include <mseLoss.hpp>
-#include <neuralException.hpp>
-
-MSELoss::MSELoss() {}
-
-MSELoss::~MSELoss() {}
-
 #include "mseLoss.hpp"
 #include "neuralException.hpp"
 

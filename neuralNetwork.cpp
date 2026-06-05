@@ -28,3 +28,17 @@ MyMatrix NeuralNetwork::predict(const MyMatrix &inputs) {
 
     return currentLayerOutput;
 }
+
+void NeuralNetwork::correct(const MyMatrix &lossDerivative) {
+    MyMatrix currentGradient = lossDerivative;
+
+    for (size_t i = network.size(); i > 0; i--) {
+        currentGradient = network.at(i - 1).backwardPass(currentGradient);
+    }
+}
+
+void NeuralNetwork::learn(double learningRate) {
+    for (size_t i = 0; i < network.size(); ++i) {
+        network.at(i).updateWeightsAndBiases(learningRate);
+    }
+}

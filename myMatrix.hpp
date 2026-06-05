@@ -30,9 +30,12 @@ class MyMatrix {
     int getColumns() const;
 
     MyMatrix transpose() const;
+    void zero();
 
     MyMatrix operator+(const MyMatrix &addend) const;
     MyMatrix operator+(double scalar) const;
+
+    MyMatrix operator-(const MyMatrix &subtrahend) const;
 
     MyMatrix operator*(const MyMatrix &factor) const;
     MyMatrix operator*(double scalar) const;

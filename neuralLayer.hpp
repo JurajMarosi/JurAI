@@ -9,7 +9,11 @@ class NeuralLayer {
     MyMatrix weights;
     MyMatrix biases;
     MyMatrix lastActivation;
+    MyMatrix lastInput;
     ActivationType funcType;
+
+    MyMatrix weightGradients;
+    MyMatrix biasGradients;
 
     int inputCount;
     int neuronCount;
@@ -22,4 +26,6 @@ class NeuralLayer {
     int getNeuronCount() const;
 
     MyMatrix forwardPass(const MyMatrix &inputs);
+    MyMatrix backwardPass(const MyMatrix &outputGradient);
+    void updateWeightsAndBiases(double learningRate);
 };

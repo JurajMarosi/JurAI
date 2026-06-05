@@ -84,6 +84,12 @@ MyMatrix MyMatrix::transpose() const {
     return transposedMyMatrix;
 }
 
+void MyMatrix::zero() {
+    for (size_t i = 0; i < values.size(); i++) {
+        values.at(i) = 0.0;
+    }
+}
+
 MyMatrix MyMatrix::operator+(const MyMatrix &addend) const {
     if (isNull()) {
         throw NeuralException("MyMatrix is NULL!");
@@ -112,6 +118,23 @@ MyMatrix MyMatrix::operator+(double scalar) const {
         sumMyMatrix.values[i] = values[i] + scalar;
     }
     return sumMyMatrix;
+}
+
+MyMatrix MyMatrix::operator-(const MyMatrix &subtrahend) const {
+    if (isNull()) {
+        throw NeuralException("MyMatrix is NULL!");
+    }
+
+    if (rows != subtrahend.rows || columns != subtrahend.columns) {
+        throw NeuralException("The matrices must have the same dimensions for subtraction!");
+    }
+
+    MyMatrix diffMyMatrix(rows, columns, ZERO);
+
+    for (size_t i = 0; i < values.size(); i++) {
+        diffMyMatrix.values[i] = values[i] - subtrahend.values[i];
+    }
+    return diffMyMatrix;
 }
 
 MyMatrix MyMatrix::operator*(const MyMatrix &factor) const {
