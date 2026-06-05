@@ -11,9 +11,15 @@ class NeuralLayer {
     MyMatrix lastActivation;
     ActivationType funcType;
 
+    int inputCount;
+    int neuronCount;
+
   public:
     NeuralLayer(int inputNum, int neuronNum, ActivationType function);
     ~NeuralLayer();
 
-    MyMatrix forwardPass(MyMatrix inputs);
+    int getInputCount() const;
+    int getNeuronCount() const;
+
+    MyMatrix forwardPass(const MyMatrix &inputs);
 };

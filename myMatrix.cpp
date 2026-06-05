@@ -4,7 +4,7 @@
 #include <string>
 
 #include "myMatrix.hpp"
-#include "myMatrixException.hpp"
+#include "neuralException.hpp"
 
 using namespace std;
 
@@ -21,7 +21,7 @@ MyMatrix::~MyMatrix() {}
 
 void MyMatrix::print() const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < columns; j++) {
@@ -45,16 +45,16 @@ double MyMatrix::getValue(int row, int column) const { return values.at(getIndex
 
 void MyMatrix::setValue(int row, int column, double value) { values.at(getIndex(row, column)) = value; }
 
-int MyMatrix::getRows() { return rows; }
+int MyMatrix::getRows() const { return rows; }
 
-int MyMatrix::getColumns() { return columns; }
+int MyMatrix::getColumns() const { return columns; }
 
 int MyMatrix::getIndex(int row, int column) const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
     if (row >= rows || row < 0 || column >= columns || column < 0) {
-        throw MyMatrixException("Index out of bounds!");
+        throw NeuralException("Index out of bounds!");
     }
     return (row * columns) + column;
 }
@@ -68,7 +68,7 @@ bool MyMatrix::isNull() const {
 
 MyMatrix MyMatrix::transpose() const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
 
     MyMatrix transposedMyMatrix(columns, rows, ZERO);
@@ -86,11 +86,11 @@ MyMatrix MyMatrix::transpose() const {
 
 MyMatrix MyMatrix::operator+(const MyMatrix &addend) const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
 
     if (rows != addend.rows || columns != addend.columns) {
-        throw MyMatrixException("The matrices must have the same dimensions for adding!");
+        throw NeuralException("The matrices must have the same dimensions for adding!");
     }
 
     MyMatrix sumMyMatrix(rows, columns, ZERO);
@@ -103,7 +103,7 @@ MyMatrix MyMatrix::operator+(const MyMatrix &addend) const {
 
 MyMatrix MyMatrix::operator+(double scalar) const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
 
     MyMatrix sumMyMatrix(rows, columns, ZERO);
@@ -116,11 +116,11 @@ MyMatrix MyMatrix::operator+(double scalar) const {
 
 MyMatrix MyMatrix::operator*(const MyMatrix &factor) const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
 
     if (columns != factor.rows) {
-        throw MyMatrixException("Matrices do not have compatible dimensions for multiplication!");
+        throw NeuralException("Matrices do not have compatible dimensions for multiplication!");
     }
 
     MyMatrix mulMyMatrix(rows, factor.columns, ZERO);
@@ -144,7 +144,7 @@ MyMatrix MyMatrix::operator*(const MyMatrix &factor) const {
 
 MyMatrix MyMatrix::operator*(double scalar) const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
 
     MyMatrix mulMyMatrix(rows, columns, ZERO);
@@ -157,12 +157,12 @@ MyMatrix MyMatrix::operator*(double scalar) const {
 
 MyMatrix MyMatrix::operator%(const MyMatrix &addend) const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
 
     if (rows != addend.rows || columns != addend.columns) {
-        throw MyMatrixException("The matrices must have the same dimensions for "
-                                "Hadamard multiplication!");
+        throw NeuralException("The matrices must have the same dimensions for "
+                              "Hadamard multiplication!");
     }
 
     MyMatrix mulMyMatrix(rows, columns, ZERO);
@@ -174,7 +174,7 @@ MyMatrix MyMatrix::operator%(const MyMatrix &addend) const {
 
 MyMatrix MyMatrix::map(std::function<double(double)> func) const {
     if (isNull()) {
-        throw MyMatrixException("MyMatrix is NULL!");
+        throw NeuralException("MyMatrix is NULL!");
     }
 
     MyMatrix resultMatrix(rows, columns, ZERO);

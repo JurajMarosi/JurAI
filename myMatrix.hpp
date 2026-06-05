@@ -26,8 +26,8 @@ class MyMatrix {
     void print() const;
     double getValue(int row, int column) const;
     void setValue(int row, int column, double value);
-    int getRows();
-    int getColumns();
+    int getRows() const;
+    int getColumns() const;
 
     MyMatrix transpose() const;
 

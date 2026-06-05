@@ -1,30 +1,27 @@
 #include "neuralLayer.hpp"
-
-#include <iostream>
+#include "neuralException.hpp"
 
 using namespace std;
 
 NeuralLayer::NeuralLayer(int inputNum, int neuronNum, ActivationType function)
-    : weights(inputNum, neuronNum, MyMatrix::RANDOM), biases(1, neuronNum, MyMatrix::ZERO), lastActivation(1, neuronNum, MyMatrix::ZERO) {
+    : weights(inputNum, neuronNum, MyMatrix::RANDOM), biases(1, neuronNum, MyMatrix::ZERO), lastActivation(1, neuronNum, MyMatrix::ZERO),
+      inputCount(inputNum), neuronCount(neuronNum) {
     funcType = function;
 }
 
 NeuralLayer::~NeuralLayer() {}
 
-MyMatrix NeuralLayer::forwardPass(MyMatrix inputs) {
+int NeuralLayer::getInputCount() const { return inputCount; }
+int NeuralLayer::getNeuronCount() const { return neuronCount; }
+
+MyMatrix NeuralLayer::forwardPass(const MyMatrix &inputs) {
     if (inputs.getColumns() != weights.getRows()) {
-        cout << "ZLE DIMENZIE! Vstupy a vahy do seba nezapadaju." << endl;
+        throw NeuralException("Incompatible inputs matrix and weights matrix dimensions!");
     }
 
     MyMatrix result = (inputs * weights) + biases;
 
-    if (funcType == SIGMOID) {
-        result = result.sigmoid();
-    } else {
-        result = result.relu();
-    }
+    lastActivation = funcType == SIGMOID ? result.sigmoid() : result.relu();
 
-    lastActivation = result;
-
-    return result;
+    return lastActivation;
 }

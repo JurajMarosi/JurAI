@@ -1,5 +1,5 @@
 #include "myMatrix.hpp"
-#include "myMatrixException.hpp"
+#include "neuralException.hpp"
 #include "neuralLayer.hpp"
 
 #include <iostream>
@@ -27,7 +27,7 @@ int main() {
 
         cout << "\nSkuska dopadla uspesne!" << endl;
 
-    } catch (MyMatrixException e) {
+    } catch (NeuralException &e) {
         cerr << e.what() << endl;
     }
     return 0;

@@ -1,5 +1,5 @@
 #include "myMatrix.hpp"
-#include "myMatrixException.hpp"
+#include "neuralException.hpp"
 #include <cassert>
 #include <iostream>
 #include <string>
@@ -131,7 +131,7 @@ void testAddException() {
 
     try {
         MyMatrix reuslt = data.A + data.B;
-    } catch (MyMatrixException e) {
+    } catch (NeuralException &e) {
         exceptionThrown = true;
 
         string errorMsg = e.what();
@@ -150,7 +150,7 @@ void testMulException() {
 
     try {
         MyMatrix reuslt = data.B * data.C;
-    } catch (MyMatrixException e) {
+    } catch (NeuralException &e) {
         exceptionThrown = true;
 
         string errorMsg = e.what();
@@ -169,7 +169,7 @@ void testHadException() {
 
     try {
         MyMatrix reuslt = data.A % data.C;
-    } catch (MyMatrixException e) {
+    } catch (NeuralException &e) {
         exceptionThrown = true;
 
         string errorMsg = e.what();
@@ -199,7 +199,7 @@ void testIndexException() {
 
     try {
         data.A.getIndex(3, 3);
-    } catch (MyMatrixException e) {
+    } catch (NeuralException &e) {
         exceptionThrown = true;
 
         string errorMsg = e.what();
