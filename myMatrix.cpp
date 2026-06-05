@@ -193,3 +193,19 @@ MyMatrix MyMatrix::sigmoid() const {
 MyMatrix MyMatrix::relu() const {
     return map([](double x) { return x < 0.0 ? 0.0 : x; });
 }
+
+MyMatrix MyMatrix::sigmoidDerivative() const {
+    if (isNull()) {
+        throw NeuralException("MyMatrix is NULL during sigmoid derivative calculation!");
+    }
+
+    return map([](double a) { return a * (1.0 - a); });
+}
+
+MyMatrix MyMatrix::reluDerivative() const {
+    if (isNull()) {
+        throw NeuralException("MyMatrix is NULL during relu derivative calculation!");
+    }
+
+    return map([](double x) { return x > 0.0 ? 1.0 : 0.0; });
+}

@@ -42,4 +42,6 @@ class MyMatrix {
     MyMatrix map(std::function<double(double)> func) const;
     MyMatrix sigmoid() const;
     MyMatrix relu() const;
+    MyMatrix sigmoidDerivative() const;
+    MyMatrix reluDerivative() const;
 };
