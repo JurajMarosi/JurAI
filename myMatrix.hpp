@@ -21,7 +21,13 @@ class MyMatrix {
     MyMatrix(int rows, int columns, initMode mode);
     ~MyMatrix();
 
-    double generateRandVal();
+    MyMatrix(const MyMatrix &other) = default;
+    MyMatrix &operator=(const MyMatrix &other) = default;
+
+    MyMatrix(MyMatrix &&other) noexcept = default;
+    MyMatrix &operator=(MyMatrix &&other) noexcept = default;
+
+    static double generateRandVal(double lowBound = -1.0, double highBound = 1.0);
 
     void print() const;
     double getValue(int row, int column) const;
@@ -36,9 +42,11 @@ class MyMatrix {
     MyMatrix operator+(double scalar) const;
 
     MyMatrix operator-(const MyMatrix &subtrahend) const;
+    MyMatrix &operator-=(const MyMatrix &subtrahend);
 
     MyMatrix operator*(const MyMatrix &factor) const;
     MyMatrix operator*(double scalar) const;
+    MyMatrix &operator*=(double scalar);
 
     MyMatrix operator%(const MyMatrix &factor) const;
 

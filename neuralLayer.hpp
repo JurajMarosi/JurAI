@@ -2,15 +2,12 @@
 
 #include "myMatrix.hpp"
 
-enum ActivationType { SIGMOID, RELU };
-
 class NeuralLayer {
   private:
     MyMatrix weights;
     MyMatrix biases;
     MyMatrix lastActivation;
     MyMatrix lastInput;
-    ActivationType funcType;
 
     MyMatrix weightGradients;
     MyMatrix biasGradients;
@@ -19,7 +16,10 @@ class NeuralLayer {
     int neuronCount;
 
   public:
-    NeuralLayer(int inputNum, int neuronNum, ActivationType function);
+    enum ActivationType { SIGMOID, RELU };
+    ActivationType funcType;
+
+    NeuralLayer(int inputNum, int neuronNum, NeuralLayer::ActivationType function);
     ~NeuralLayer();
 
     int getInputCount() const;
@@ -28,4 +28,5 @@ class NeuralLayer {
     MyMatrix forwardPass(const MyMatrix &inputs);
     MyMatrix backwardPass(const MyMatrix &outputGradient);
     void updateWeightsAndBiases(double learningRate);
+    void initializeWeights();
 };

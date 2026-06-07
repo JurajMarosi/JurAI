@@ -1,4 +1,5 @@
 #include "neuralNetwork.hpp"
+#include "mseLoss.hpp"
 #include "neuralException.hpp"
 
 using namespace std;
@@ -7,7 +8,7 @@ NeuralNetwork::NeuralNetwork() {}
 
 NeuralNetwork::~NeuralNetwork() {}
 
-void NeuralNetwork::addLayer(int inputNum, int neuronNum, ActivationType function) {
+void NeuralNetwork::addLayer(int inputNum, int neuronNum, NeuralLayer::ActivationType function) {
     if (!network.empty() && network.back().getNeuronCount() != inputNum) {
         throw NeuralException("New network layer does not follow the previous layer!");
     }
@@ -33,12 +34,29 @@ void NeuralNetwork::correct(const MyMatrix &lossDerivative) {
     MyMatrix currentGradient = lossDerivative;
 
     for (size_t i = network.size(); i > 0; i--) {
-        currentGradient = network.at(i - 1).backwardPass(currentGradient);
+        currentGradient = network[i - 1].backwardPass(currentGradient);
     }
 }
 
 void NeuralNetwork::learn(double learningRate) {
     for (size_t i = 0; i < network.size(); ++i) {
-        network.at(i).updateWeightsAndBiases(learningRate);
+        network[i].updateWeightsAndBiases(learningRate);
+    }
+}
+
+void NeuralNetwork::train(const MyMatrix &inputs, const MyMatrix &targets, int loops, double learningRate) {
+    MSELoss loss;
+
+    for (int loop = 1; loop <= loops; ++loop) {
+
+        MyMatrix finalOutput = predict(inputs);
+
+        double currentLoss = loss.calculate(finalOutput, targets);
+
+        MyMatrix lossGradient = loss.calculateDerivative(finalOutput, targets);
+
+        correct(lossGradient);
+
+        learn(learningRate);
     }
 }

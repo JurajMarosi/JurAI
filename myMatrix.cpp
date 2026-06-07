@@ -12,7 +12,7 @@ MyMatrix::MyMatrix(int r, int c, initMode mode) : rows(r), columns(c) {
     values.resize(rows * columns, 0.0);
     if (mode == RANDOM) {
         for (size_t i = 0; i < values.size(); i++) {
-            values.at(i) = generateRandVal();
+            values[i] = generateRandVal();
         }
     }
 }
@@ -32,18 +32,17 @@ void MyMatrix::print() const {
     }
 }
 
-double MyMatrix::generateRandVal() {
-    double lowBound = -1.0;
-    double highBound = 1.0;
-    static std::random_device rd;
-    static std::mt19937 re(rd());
-    static std::uniform_real_distribution<double> unif(lowBound, highBound);
+double MyMatrix::generateRandVal(double lowBound, double highBound) {
+    thread_local std::random_device rd;
+    thread_local std::mt19937 re(rd());
+
+    std::uniform_real_distribution<double> unif(lowBound, highBound);
     return unif(re);
 }
 
-double MyMatrix::getValue(int row, int column) const { return values.at(getIndex(row, column)); }
+double MyMatrix::getValue(int row, int column) const { return values[getIndex(row, column)]; }
 
-void MyMatrix::setValue(int row, int column, double value) { values.at(getIndex(row, column)) = value; }
+void MyMatrix::setValue(int row, int column, double value) { values[getIndex(row, column)] = value; }
 
 int MyMatrix::getRows() const { return rows; }
 
@@ -86,7 +85,7 @@ MyMatrix MyMatrix::transpose() const {
 
 void MyMatrix::zero() {
     for (size_t i = 0; i < values.size(); i++) {
-        values.at(i) = 0.0;
+        values[i] = 0.0;
     }
 }
 
@@ -95,15 +94,28 @@ MyMatrix MyMatrix::operator+(const MyMatrix &addend) const {
         throw NeuralException("MyMatrix is NULL!");
     }
 
-    if (rows != addend.rows || columns != addend.columns) {
-        throw NeuralException("The matrices must have the same dimensions for adding!");
+    if (columns != addend.columns) {
+        throw NeuralException("The matrices must have the same number of columns for adding!");
     }
 
     MyMatrix sumMyMatrix(rows, columns, ZERO);
 
-    for (size_t i = 0; i < values.size(); i++) {
-        sumMyMatrix.values[i] = values[i] + addend.values[i];
+    if (rows != addend.rows && addend.rows == 1) {
+        for (size_t i = 0; i < values.size(); i++) {
+
+            size_t colIndex = i % columns;
+            sumMyMatrix.values[i] = values[i] + addend.values[colIndex];
+        }
+    } else {
+        if (rows != addend.rows) {
+            throw NeuralException("Matrix dimensions must match completely if broadcasting is not applicable!");
+        }
+
+        for (size_t i = 0; i < values.size(); i++) {
+            sumMyMatrix.values[i] = values[i] + addend.values[i];
+        }
     }
+
     return sumMyMatrix;
 }
 
@@ -137,6 +149,21 @@ MyMatrix MyMatrix::operator-(const MyMatrix &subtrahend) const {
     return diffMyMatrix;
 }
 
+MyMatrix &MyMatrix::operator-=(const MyMatrix &subtrahend) {
+    if (isNull() || subtrahend.isNull()) {
+        throw NeuralException("Cannot subtract NULL matrices!");
+    }
+    if (rows != subtrahend.rows || columns != subtrahend.columns) {
+        throw NeuralException("Dimensions must match perfectly for in-place subtraction!");
+    }
+
+    for (size_t i = 0; i < values.size(); i++) {
+        values[i] -= subtrahend.values[i];
+    }
+
+    return *this;
+}
+
 MyMatrix MyMatrix::operator*(const MyMatrix &factor) const {
     if (isNull()) {
         throw NeuralException("MyMatrix is NULL!");
@@ -153,6 +180,7 @@ MyMatrix MyMatrix::operator*(const MyMatrix &factor) const {
             int indexA = i * columns + k;
             double valA = values[indexA];
 
+#pragma omp simd
             for (int j = 0; j < factor.columns; j++) {
                 int indexB = k * factor.columns + j;
                 int indexResult = i * factor.columns + j;
@@ -176,6 +204,18 @@ MyMatrix MyMatrix::operator*(double scalar) const {
         mulMyMatrix.values[i] = values[i] * scalar;
     }
     return mulMyMatrix;
+}
+
+MyMatrix &MyMatrix::operator*=(double scalar) {
+    if (isNull()) {
+        throw NeuralException("Cannot multiply NULL matrix by scalar!");
+    }
+
+    for (size_t i = 0; i < values.size(); i++) {
+        values[i] *= scalar;
+    }
+
+    return *this;
 }
 
 MyMatrix MyMatrix::operator%(const MyMatrix &addend) const {

@@ -1,34 +1,43 @@
 #include "myMatrix.hpp"
 #include "neuralException.hpp"
-#include "neuralLayer.hpp"
-
+#include "neuralNetwork.hpp"
+#include <exception>
 #include <iostream>
 
 using namespace std;
 
 int main() {
     try {
-        cout << "Vytvaram neuronovu vrstvu (3 vstupy -> 2 neurony)..." << endl;
-        NeuralLayer vrstva(3, 2, RELU);
+        MyMatrix inputs(4, 2, MyMatrix::ZERO);
+        inputs.setValue(0, 0, 0.0);
+        inputs.setValue(0, 1, 0.0);
+        inputs.setValue(1, 0, 0.0);
+        inputs.setValue(1, 1, 1.0);
+        inputs.setValue(2, 0, 1.0);
+        inputs.setValue(2, 1, 0.0);
+        inputs.setValue(3, 0, 1.0);
+        inputs.setValue(3, 1, 1.0);
 
-        MyMatrix vstupy(1, 3, MyMatrix::ZERO);
-        vstupy.setValue(0, 0, 1.0);
-        vstupy.setValue(0, 1, -2.5);
-        vstupy.setValue(0, 2, 3.5);
+        MyMatrix targets(4, 1, MyMatrix::ZERO);
+        targets.setValue(0, 0, 0.0);
+        targets.setValue(1, 0, 1.0);
+        targets.setValue(2, 0, 1.0);
+        targets.setValue(3, 0, 0.0);
 
-        cout << "\n--- VSTUPNE DATA (Rozmer 1x3) ---" << endl;
-        vstupy.print();
+        NeuralNetwork network;
+        network.addLayer(2, 4, NeuralLayer::RELU);
+        network.addLayer(4, 1, NeuralLayer::SIGMOID);
 
-        cout << "\n--- SPUSTAM FORWARD PASS ---" << endl;
-        MyMatrix vystup = vrstva.forwardPass(vstupy);
+        network.train(inputs, targets, 10000, 0.8);
 
-        cout << "\n--- VYSTUP Z VRSTVY (Rozmer 1x2) ---" << endl;
-        vystup.print();
+        targets.print();
+        cout << endl;
+        network.predict(inputs).print();
 
-        cout << "\nSkuska dopadla uspesne!" << endl;
-
-    } catch (NeuralException &e) {
+    } catch (const NeuralException &e) {
         cerr << e.what() << endl;
+        return 1;
     }
+
     return 0;
 }

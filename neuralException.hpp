@@ -9,5 +9,5 @@ class NeuralException : public std::exception {
 
   public:
     NeuralException(const std::string &msg) : message(msg) {}
-    std::string what() { return message; }
+    const char *what() const noexcept override { return message.c_str(); }
 };
