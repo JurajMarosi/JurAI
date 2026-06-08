@@ -1,7 +1,7 @@
 #include "myMatrix.hpp"
 #include "neuralException.hpp"
 #include "neuralNetwork.hpp"
-#include <exception>
+#include "summaryPrinter.hpp"
 #include <iostream>
 
 using namespace std;
@@ -30,9 +30,9 @@ int main() {
 
         network.train(inputs, targets, 10000, 0.8);
 
-        targets.print();
-        cout << endl;
-        network.predict(inputs).print();
+        MyMatrix final = network.predict(inputs);
+
+        printTable(inputs, targets, final);
 
     } catch (const NeuralException &e) {
         cerr << e.what() << endl;
