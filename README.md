@@ -2,6 +2,8 @@
 
 A zero-dependency feedforward neural network built entirely in modern C++. It does not use any external linear algebra libraries and all matrix operations, forward propagation, and backpropagation are implemented from the ground up.
 
+**Use of AI disclaimer:** This project was built with the help of AI in this ways: learning about neural network, debugging, improving code robustness and consolidating code comments and documentation. Estimate percentage of AI written code: ~10%. This project was not vibecoded.
+
 ## Features
 * **100% C++ launguage code base**
 * **Custom Matrix Logic:** Handles dot products, transposition, element-wise updates, and random weight initialization.
