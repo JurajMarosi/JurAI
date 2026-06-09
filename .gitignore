@@ -1,5 +1,4 @@
 main
-run_tests
 
 commands.txt
 
@@ -7,3 +6,4 @@ commands.txt
 main.dSYM/
 
 .vscode/
+.DS_Store
