@@ -43,13 +43,16 @@ A C++ compiler supporting C++17 or newer (GCC, Clang, or MSVC). Installed CMake.
 ```bash
 cmake -B build
 cmake --build build
+```
 
 ### Run on macOS
 ```bash
 ./build/NeuralNetExampleOne
 ./build/NeuralNetExampleTwo
+```
 
 ### Run on Windows
 ```bash
 .\build\Debug\NeuralNetExampleOne.exe
 .\build\Debug\NeuralNetExampleTwo.exe
+```
