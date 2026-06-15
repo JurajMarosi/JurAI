@@ -37,16 +37,7 @@ int main() {
 
         nn.train(X, Y, 100000, 1.2);
 
-        double testPoints[8][2] = {
-            {0.0, 0.0},  // Úplný stred (mal by byť 1.0)
-            {0.2, -0.1}, // Hlboko vnútri (mal by byť 1.0)
-            {0.5, 0.3},  // Tesne vnútri kruhu (x^2 + y^2 = 0.34 <= 0.36 -> 1.0)
-            {0.9, 0.9},  // Úplne v rohu mimo kruhu (mal by byť 0.0)
-            {-0.8, 0.2}, // Vonku (mal by byť 0.0)
-            {0.0, 0.59}, // Milimeter od okraja vnútri (okolo 1.0 alebo mierna neistota)
-            {0.0, 0.61}, // Milimeter od okraja vonku (okolo 0.0 alebo mierna neistota)
-            {-0.1, -0.9} // Hlboko dole vonku (mal by byť 0.0)
-        };
+        double testPoints[8][2] = {{0.0, 0.0}, {0.2, -0.1}, {0.5, 0.3}, {0.9, 0.9}, {-0.8, 0.2}, {0.0, 0.59}, {0.0, 0.61}, {-0.1, -0.9}};
 
         MyMatrix testX(8, 2, MyMatrix::ZERO);
         for (int i = 0; i < 8; ++i) {

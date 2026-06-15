@@ -1,9 +1,4 @@
-main
-
-commands.txt
-
-*.dSYM/
-main.dSYM/
-
 .vscode/
 .DS_Store
+
+/build/

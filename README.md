@@ -37,8 +37,19 @@ Gradients are calculated using the chain rule during backpropagation, and weight
 ## Building and Running
 
 ### Prerequisites
-A C++ compiler supporting C++17 or newer (GCC, Clang, or MSVC).
+A C++ compiler supporting C++17 or newer (GCC, Clang, or MSVC). Installed CMake.
 
 ### Compile
 ```bash
-g++ -std=c++17 exampleOne.cpp myMatrix.cpp neuralLayer.cpp neuralNetwork.cpp mseLoss.cpp -o main
+cmake -B build
+cmake --build build
+
+### Run on macOS
+```bash
+./build/NeuralNetExampleOne
+./build/NeuralNetExampleTwo
+
+### Run on Windows
+```bash
+.\build\Debug\NeuralNetExampleOne.exe
+.\build\Debug\NeuralNetExampleTwo.exe
